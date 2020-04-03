@@ -1,13 +1,10 @@
 import React from 'react';
 import Page from './components/page';
-import Header from './components/header';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Header/>
-      </header>
+    <div className="App text-center">
+      <h1 class="my-5">IKEA FAN STORE</h1>
       <body>
         <Page/>
       </body>
