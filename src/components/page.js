@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
+import ReactDOM from 'react';
 import '../style/basic.scss';
 
 
@@ -259,9 +260,10 @@ class CheckOut extends React.Component {
                 <h2>Total: {totalFormat}</h2>
               </div>
               <div id="shoppingcart-checkout-button">
-                <button className="checkout-button">Check Out</button>
+                <a href="#form"><button className="checkout-button">Check Out</button></a>
               </div>
             </div>
+            <FormApp/>
           </div>
         </div>
       </div>
@@ -295,6 +297,11 @@ class Page extends React.Component {
     }if(x == 2){
       this.setState({
         orderFade: '',
+        containerSlide: ''
+      })
+    }if(x == 3){
+      this.setState({
+        orderFade: 'checkout-container-fade',
         containerSlide: ''
       })
     }
@@ -359,11 +366,103 @@ class Page extends React.Component {
       <div id="app-container">
         <div id="app-container-inside" className={this.state.containerSlide}>
           <OrderScreen applicationScreenSwitch={this.screenSwitch} applicationClass={this.state.orderFade} applicationClick={this.applicationClick} applicationClickedIndex={this.state.clickedIndex} applicationIsClicked={this.state.clicked}/>
-          <CheckOut applicationScreenSwitch={this.screenSwitch} applicationRemoveClick={this.removeClick}/>
+          <CheckOut applicationScreenSwitch={this.screenSwitch} applicationRemoveClick={this.removeClick}applicationClass={this.state.orderFade} applicationClick={this.applicationClick} applicationClickedIndex={this.state.clickedIndex} applicationIsClicked={this.state.clicked}/>
         </div>
       </div>
+      
     )
   }
+}
+
+
+class FormApp extends React.Component{
+  render() {
+    return (
+      <div id="form-container" className="container">
+        <ContentBody />
+      </div>  
+    );
+  }
+}
+const ContentBody = () => {
+
+    return (
+      <div className="row">
+        <div className="col-md-12" id="form">
+            <FormBody/>
+        </div>
+      </div>
+    );
+}
+
+const FormBody = () => {
+  const [info, setinfo] = useState([]);
+  const [newInfo, setNewInfo] = useState({name: '', lastname: '', email: '', address: ''});
+
+  function handleSave (event, type) {
+      const tempInfo = {...newInfo};
+      tempInfo[type] = event.target.value;
+      setNewInfo(tempInfo);
+  };
+
+
+  const addInfo = (event) =>{
+    event.preventDefault()
+    const infoObject = {
+      name: newInfo.name,
+      lastname: newInfo.lastname,
+      email: newInfo.email,
+      address: newInfo.address
+    }
+    console.log(info, setNewInfo)
+    setinfo(info.concat(infoObject))
+    setNewInfo('')
+    
+  }
+  return (
+    <form name="userform" id="userform" onSubmit={event => addInfo(event, newInfo)}>
+      <div className="form-group">
+        <label>Name</label>
+          <input type="text" className="form-control" value={newInfo.name} onChange={e => handleSave(e, "name")} placeholder="First name" />
+      </div>
+      <div className="form-group">
+        <label>Lastname</label>
+          <input type="text" className="form-control" value={newInfo.lastname} onChange={e => handleSave(e, "lastname")} placeholder="Lastname"/>
+      </div>
+      <div className="form-group">
+        <label>Email</label>
+          <input type="text" className="form-control" placeholder="Email" value={newInfo.email} onChange={e => handleSave(e, "email")}/>
+      </div>
+      <div className="form-group">
+        <label>Address</label>
+          <input type="text" className="form-control" placeholder="Address" value={newInfo.address} onChange={e => handleSave(e, "address")}/>
+      </div>
+      <div className="form-group">
+        <input className="btn btn-primary" type="submit" value="submit" data-toggle="modal" data-target="#myModal"/>
+      </div>
+      <div className="modal" id="myModal">
+        <div className="modal-dialog">
+          <div className="modal-content">
+
+            
+            <div className="modal-header">
+              <h2>Kiitos {info.name} {info.lastname}!</h2>
+              <button type="button" className="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            
+            <div className="modal-body">
+              <p>Tilauksesi on matkalla osoitteeseesi {info.address}</p>
+              <p>Saat lisätietoja sähköpostiisi</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
 }
 
 export default Page;
