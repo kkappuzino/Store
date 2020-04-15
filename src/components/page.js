@@ -446,13 +446,13 @@ const FormBody = () => {
 
             
             <div className="modal-header">
-              <h2>Kiitos {info.name} {info.lastname}!</h2>
+              <h2>Kiitos!</h2>
               <button type="button" className="close" data-dismiss="modal">&times;</button>
             </div>
 
             
             <div className="modal-body">
-              <p>Tilauksesi on matkalla osoitteeseesi {info.address}</p>
+              <p>Tilauksesi on matkalla osoitteeseesi</p>
               <p>Saat lisätietoja sähköpostiisi</p>
             </div>
             <div className="modal-footer">
