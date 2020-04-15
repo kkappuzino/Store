@@ -47,7 +47,7 @@ class SizeButton extends React.Component{
   }
   
   //ANIMATE IF SIBLING BUTTON CLICKED
-  componentWillReceiveProps(nextProps){
+  getSnapshotBeforeUpdate(nextProps){
      
     //HAS THE ADD BUTTON BEEN CLICKED
     if(nextProps.productCardIsClicked != this.state.clicked){
